@@ -40,8 +40,7 @@ passport.deserializeUser((id, done) => {
 
 // middleware
 app.use(express.json());
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(
   session({
     secret: '1234',
@@ -52,6 +51,9 @@ app.use(
     },
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // set view engin
 // app.set('view engine', 'pug');
