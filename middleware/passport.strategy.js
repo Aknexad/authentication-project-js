@@ -6,19 +6,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function authenticateUser(username, password, done) {
-  const user = prisma.user.findUnique({
+  const user = await prisma.user.findFirst({
     where: {
       username: username,
     },
   });
   if (user == null) {
-    return done(null, false, { message: 'user dont exist' });
+    return done(null, false);
   }
   try {
-    if (await bcrypt.compare(password, password)) {
+    if (await bcrypt.compare(password, user.password)) {
       done(null, user);
     } else {
-      done(null, false, { message: 'passwords dont mach' });
+      done(null, false);
     }
   } catch (error) {
     done(error);
@@ -27,9 +27,6 @@ async function authenticateUser(username, password, done) {
 // passport config
 passport.use(new LocalStrategy(authenticateUser));
 passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  done(
-    null,
-    data.find(user => user.id === id)
-  );
+passport.deserializeUser((userId, done) => {
+  done(null, prisma.user.findUnique({ where: { id: userId } }));
 });
