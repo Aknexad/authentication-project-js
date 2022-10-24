@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-//
+
 const indexRoute = require('./routers/index');
 const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
@@ -9,12 +9,6 @@ const logoutRouter = require('./routers/logout');
 const allUserRouters = require('./routers/allUser');
 
 const aouth = require('./middleware/auth');
-// function aouth(req, res, next) {
-//   if (!req.isAuthenticated()) {
-//     return res.redirect('/');
-//   }
-//   next();
-// }
 
 const app = express();
 
@@ -22,7 +16,6 @@ const app = express();
 require('./middleware/passport.strategy');
 // middleware
 app.use(express.json());
-
 app.use(
   session({
     secret: '1234',
@@ -36,9 +29,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// set view engin
-// app.set('view engine', 'pug');
 
 // route
 app.use('/', indexRoute);
