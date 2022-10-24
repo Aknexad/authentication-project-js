@@ -2,15 +2,23 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
 const data = require('../data');
 
 async function authenticateUser(username, password, done) {
-  const user = data.find(user => user.username === username);
+  // const user = data.find(user => user.username === username);
+  const user = prisma.user.findUnique({
+    where: {
+      username: username,
+    },
+  });
   if (user == null) {
     return done(null, false, { message: 'user dont exist' });
   }
   try {
-    if (await bcrypt.compare(password, user.password)) {
+    if (await bcrypt.compare(password, password)) {
       done(null, user);
     } else {
       done(null, false, { message: 'passwords dont mach' });
