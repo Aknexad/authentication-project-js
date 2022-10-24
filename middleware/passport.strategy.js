@@ -5,10 +5,7 @@ const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const data = require('../data');
-
 async function authenticateUser(username, password, done) {
-  // const user = data.find(user => user.username === username);
   const user = prisma.user.findUnique({
     where: {
       username: username,
