@@ -1,8 +1,6 @@
 const express = require('express');
 const passport = require('passport');
 
-const data = require('../data');
-
 const router = express.Router();
 
 router.get('/', (req, res) => {});
