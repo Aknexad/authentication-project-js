@@ -6,10 +6,17 @@ const indexRoute = require('./routers/index');
 const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
 const logoutRouter = require('./routers/logout');
+const allUserRouters = require('./routers/allUser');
+
+const aouth = require('./middleware/auth');
+// function aouth(req, res, next) {
+//   if (!req.isAuthenticated()) {
+//     return res.redirect('/');
+//   }
+//   next();
+// }
 
 const app = express();
-
-const data = require('./data');
 
 // passport //
 require('./middleware/passport.strategy');
@@ -38,6 +45,7 @@ app.use('/', indexRoute);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/allUser', aouth, allUserRouters);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`app run on port ${port}`));
