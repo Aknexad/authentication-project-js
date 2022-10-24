@@ -1,8 +1,6 @@
 const express = require('express');
 const session = require('express-session');
-const bcrypt = require('bcrypt');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 //
 const indexRoute = require('./routers/index');
 const registerRouter = require('./routers/register');
@@ -14,31 +12,7 @@ const app = express();
 const data = require('./data');
 
 // passport //
-async function authenticateUser(username, password, done) {
-  const user = data.find(user => user.username === username);
-  if (user == null) {
-    return done(null, false, { message: 'user dont exist' });
-  }
-  try {
-    if (await bcrypt.compare(password, user.password)) {
-      done(null, user);
-    } else {
-      done(null, false, { message: 'passwords dont mach' });
-    }
-  } catch (error) {
-    done(error);
-  }
-}
-// passport config
-passport.use(new LocalStrategy(authenticateUser));
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  done(
-    null,
-    data.find(user => user.id === id)
-  );
-});
-
+require('./middleware/passport.strategy');
 // middleware
 app.use(express.json());
 
