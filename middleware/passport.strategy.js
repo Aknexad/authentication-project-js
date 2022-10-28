@@ -26,7 +26,7 @@ async function authenticateUser(username, password, done) {
 }
 // passport config
 passport.use(new LocalStrategy(authenticateUser));
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((userId, done) => {
-  done(null, prisma.user.findUnique({ where: { id: userId } }));
-});
+// passport.serializeUser((user, done) => done(null, user.id));
+// passport.deserializeUser((userId, done) => {
+//   done(null, prisma.user.findUnique({ where: { id: userId } }));
+// });
