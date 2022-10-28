@@ -2,6 +2,8 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
+require('dotenv').config();
+
 const indexRoute = require('./routers/index');
 const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
