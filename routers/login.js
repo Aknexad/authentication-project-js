@@ -10,12 +10,16 @@ router.get('/', (req, res) => {});
 router.post(
   '/',
   passport.authenticate('local', { session: false }),
-  (req, res, next) => {
-    const payload = { id: req.user.id, username: req.user.username };
+  (req, res) => {
+    const payload = {
+      sub: req.user.id,
+      username: req.user.username,
+      iat: Date.now(),
+    };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-    res.json({ payload, token });
+    res.json({ user: payload, token: token });
   }
 );
 
