@@ -1,2 +1,2 @@
 # authentication-project-js
- a simpel authentication white express ,session ,passport and mysql ,prisma
+ authentication white express ,jwt ,passport and mysql ,prisma
